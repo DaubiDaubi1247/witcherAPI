@@ -4,13 +4,14 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "monster")
+@Table(name = "monster_class")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @EqualsAndHashCode
-public class Monster {
+@Builder
+public class MonsterClass {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,4 +22,8 @@ public class Monster {
 
     @Column(name = "img_source")
     private String imgSource;
+
+    @Lob
+    @Column(name = "info")
+    private String info;
 }
