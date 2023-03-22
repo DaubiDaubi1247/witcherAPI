@@ -2,8 +2,11 @@ package ru.alex.witcherapi.service.Impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import ru.alex.witcherapi.dto.MonsterBaseDto;
+import ru.alex.witcherapi.entity.MonsterClass;
+import ru.alex.witcherapi.exception.NotFoundException;
 import ru.alex.witcherapi.mapper.MonsterMapper;
 import ru.alex.witcherapi.repository.MonsterClassRepository;
 import ru.alex.witcherapi.repository.MonsterRepository;
@@ -26,7 +29,15 @@ public class MonsterServiceImpl implements MonsterService {
     }
 
     @Override
-    public List<MonsterBaseDto> getMonsterList() {
-        return monsterMapper.toDtoList(monsterRepository.findAll());
+    @Transactional
+    public List<MonsterBaseDto> getMonsterListByClassId(Long id) {
+        MonsterClass monsterClass = getMonsterClassById(id);
+
+        return monsterMapper.toDtoList(monsterRepository.findAllByMonsterClass(monsterClass));
+    }
+
+    private MonsterClass getMonsterClassById(Long id) {
+        return monsterClassRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("monster class with id = " + id + " not found"));
     }
 }

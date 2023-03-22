@@ -8,5 +8,5 @@ public interface MonsterService {
 
     List<MonsterBaseDto> getMonsterClassList();
 
-    List<MonsterBaseDto> getMonsterList();
+    List<MonsterBaseDto> getMonsterListByClassId(Long id);
 }

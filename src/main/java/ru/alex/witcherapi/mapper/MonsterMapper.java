@@ -8,5 +8,6 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface MonsterMapper {
+
     List<MonsterBaseDto> toDtoList(List<? extends MonsterBase> monsterClassList);
 }
