@@ -1,10 +1,12 @@
 package ru.alex.witcherapi.service;
 
-import ru.alex.witcherapi.dto.MonsterClassDto;
+import ru.alex.witcherapi.dto.MonsterBaseDto;
 
 import java.util.List;
 
 public interface MonsterService {
 
-    List<MonsterClassDto> getMonsterClassList();
+    List<MonsterBaseDto> getMonsterClassList();
+
+    List<MonsterBaseDto> getMonsterList();
 }
