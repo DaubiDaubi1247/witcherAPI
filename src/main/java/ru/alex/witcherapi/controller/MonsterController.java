@@ -18,11 +18,6 @@ public class MonsterController {
 
     private final MonsterService monsterService;
 
-    @GetMapping("/class/all")
-    public ResponseEntity<List<MonsterBaseDto>> getMonsterClassList() {
-        return ResponseEntity.ok(monsterService.getMonsterClassList());
-    }
-
     @GetMapping("/all/{classId}")
     public ResponseEntity<List<MonsterBaseDto>> getMonsterListByClassId(@PathVariable Long classId) {
         return ResponseEntity.ok(monsterService.getMonsterListByClassId(classId));
