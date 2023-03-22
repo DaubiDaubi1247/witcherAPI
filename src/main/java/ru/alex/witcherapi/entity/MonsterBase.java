@@ -11,7 +11,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Data
 @SuperBuilder
-public class MonsterBaseClass {
+public class MonsterBase {
 
 
     @Id

@@ -10,6 +10,6 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @SuperBuilder
-public class MonsterClass extends MonsterBaseClass {
+public class MonsterClass extends MonsterBase {
 
 }

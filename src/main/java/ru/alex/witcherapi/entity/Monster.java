@@ -10,7 +10,10 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @SuperBuilder
-public class Monster extends MonsterBaseClass {
+public class Monster extends MonsterBase {
+
+    @ManyToOne
+    private MonsterClass monsterClass;
 
     @OneToOne
     @JoinColumn(name = "monster_desc_id")
