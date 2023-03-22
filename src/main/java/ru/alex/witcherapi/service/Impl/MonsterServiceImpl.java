@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import ru.alex.witcherapi.dto.MonsterClassDto;
+import ru.alex.witcherapi.mapper.MonsterClassMapper;
 import ru.alex.witcherapi.repository.MonsterClassRepository;
 import ru.alex.witcherapi.service.MonsterService;
 
@@ -15,9 +16,10 @@ import java.util.List;
 public class MonsterServiceImpl implements MonsterService {
 
     private final MonsterClassRepository monsterClassRepository;
+    private final MonsterClassMapper monsterClassMapper;
 
     @Override
     public List<MonsterClassDto> getMonsterClassList() {
-        return null;
+        return monsterClassMapper.toDtoList(monsterClassRepository.findAll());
     }
 }
