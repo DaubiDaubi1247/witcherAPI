@@ -5,11 +5,14 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @Entity
-@Table(name = "monster_class")
+@Table(name = "monster")
 @NoArgsConstructor
 @Getter
 @Setter
 @SuperBuilder
-public class MonsterClass extends MonsterBaseClass {
+public class Monster extends MonsterBaseClass {
 
+    @OneToOne
+    @JoinColumn(name = "monster_desc_id")
+    private MonsterDescription monsterDescription;
 }

@@ -26,4 +26,7 @@ public class MonsterDescription {
     @Lob
     @Column(name = "description")
     private String description;
+
+    @OneToOne(mappedBy = "monsterDescription")
+    private Monster monster;
 }
