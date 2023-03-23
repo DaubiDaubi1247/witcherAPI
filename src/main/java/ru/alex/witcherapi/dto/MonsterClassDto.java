@@ -14,6 +14,7 @@ public class MonsterClassDto {
     @NotBlank(message = "name must be not null or not empty")
     private String name;
 
+    @NotBlank(message = "img cant be null or empty")
     private MultipartFile classImg;
 
 }

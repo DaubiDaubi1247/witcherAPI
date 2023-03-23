@@ -1,5 +1,7 @@
 package ru.alex.witcherapi.service;
 
+import jakarta.validation.constraints.NotBlank;
+import org.springframework.web.multipart.MultipartFile;
 import ru.alex.witcherapi.dto.MonsterBaseDto;
 import ru.alex.witcherapi.entity.MonsterClass;
 
@@ -9,4 +11,6 @@ public interface MonsterClassService {
     List<MonsterBaseDto> getMonsterClassList();
 
     MonsterClass getMonsterClassById(Long id);
+
+    void uploadClass(@NotBlank String className, MultipartFile classImg);
 }

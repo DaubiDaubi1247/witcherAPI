@@ -6,4 +6,5 @@ import ru.alex.witcherapi.entity.MonsterClass;
 
 @Repository
 public interface MonsterClassRepository extends JpaRepository<MonsterClass, Long> {
+    boolean existsByNameAndImgSource(String name, String imgSource);
 }
