@@ -11,7 +11,7 @@ import ru.alex.witcherapi.service.MonsterClassService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1.0/class")
+@RequestMapping("/api/v1.0/monster/class")
 @RequiredArgsConstructor
 public class MonsterClassController {
 

@@ -23,7 +23,4 @@ public class MonsterBase {
     @Column(name = "img_source")
     private String imgSource;
 
-    @Lob
-    @Column(name = "info")
-    private String info;
 }
