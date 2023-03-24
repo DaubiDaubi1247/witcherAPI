@@ -29,4 +29,9 @@ public class MonsterServiceImpl implements MonsterService {
 
         return monsterMapper.toDtoList(monsterRepository.findAllByMonsterClass(monsterClass));
     }
+
+    @Override
+    public boolean existsByPath(String path) {
+        return monsterRepository.existsByImgSource(path);
+    }
 }

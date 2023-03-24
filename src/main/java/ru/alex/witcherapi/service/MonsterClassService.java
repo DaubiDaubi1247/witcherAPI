@@ -5,13 +5,15 @@ import jakarta.validation.constraints.NotNull;
 import org.springframework.web.multipart.MultipartFile;
 import ru.alex.witcherapi.dto.MonsterBaseDto;
 import ru.alex.witcherapi.entity.MonsterClass;
+import ru.alex.witcherapi.utils.PathChecker;
 
 import java.util.List;
 
-public interface MonsterClassService {
+public interface MonsterClassService extends PathChecker {
     List<MonsterBaseDto> getMonsterClassList();
 
     MonsterClass getMonsterClassById(Long id);
 
     void uploadClass(@NotBlank String className, @NotNull MultipartFile classImg);
+
 }

@@ -57,6 +57,11 @@ public class MonsterClassServiceImpl implements MonsterClassService {
         monsterClassRepository.save(newMonsterClass);
     }
 
+    @Override
+    public boolean existsByPath(@NotBlank String path) {
+        return monsterClassRepository.existsByImgSource(path);
+    }
+
     private static void saveFile(MultipartFile classImg, Path classImgPath) {
         try {
             Files.copy(classImg.getInputStream(), classImgPath.resolve(classImg.getOriginalFilename()));
