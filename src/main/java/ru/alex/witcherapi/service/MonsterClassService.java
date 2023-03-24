@@ -1,6 +1,8 @@
 package ru.alex.witcherapi.service;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.web.multipart.MultipartFile;
 import ru.alex.witcherapi.dto.MonsterBaseDto;
 import ru.alex.witcherapi.dto.UploadFilesBaseDto;
 import ru.alex.witcherapi.entity.MonsterClass;
@@ -13,6 +15,6 @@ public interface MonsterClassService extends PathChecker {
 
     MonsterClass getMonsterClassById(Long id);
 
-    void uploadClass(@Valid UploadFilesBaseDto classInfo);
+    MonsterBaseDto uploadClass(@Valid UploadFilesBaseDto classInfo, @NotNull MultipartFile classImg);
 
 }

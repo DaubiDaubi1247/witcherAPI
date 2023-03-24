@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class UploadFilesWithDescription extends UploadFilesBaseDto {
+public class UploadFilesWithDescription extends UploadFilesBaseDto{
     @Lob
     private String quote;
 

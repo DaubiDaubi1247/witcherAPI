@@ -10,5 +10,4 @@ import ru.alex.witcherapi.entity.MonsterBase;
 @Setter
 public class MonsterBaseDto extends MonsterBase {
 
-    private String source;
 }

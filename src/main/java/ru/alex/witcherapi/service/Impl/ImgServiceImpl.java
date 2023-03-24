@@ -37,6 +37,6 @@ public class ImgServiceImpl implements ImgService {
         }
 
         return new ServletContextResource(servletContext,
-                PathEnum.PATH_FOR_GET_IMG.getPath() + monsterBase.getSource() + monsterBase.getImgSource());
+                PathEnum.PATH_FOR_GET_IMG.getPath() + monsterBase.getSource() + monsterBase.getImgName());
     }
 }

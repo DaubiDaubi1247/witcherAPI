@@ -1,6 +1,6 @@
 package ru.alex.witcherapi.service.Impl;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -8,9 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.multipart.MultipartFile;
 import ru.alex.witcherapi.dto.MonsterBaseDto;
+import ru.alex.witcherapi.dto.UploadFilesWithDescription;
 import ru.alex.witcherapi.entity.Monster;
 import ru.alex.witcherapi.entity.MonsterBase;
 import ru.alex.witcherapi.entity.MonsterClass;
+import ru.alex.witcherapi.entity.MonsterDescription;
 import ru.alex.witcherapi.exception.FileAlreadyExistsException;
 import ru.alex.witcherapi.exception.NotFoundException;
 import ru.alex.witcherapi.mapper.MonsterMapper;
@@ -35,25 +37,33 @@ public class MonsterServiceImpl implements MonsterService {
 
     @Override
     @Transactional
-    public void uploadMonster(@NotBlank String name, Long monsterClassId, @NotNull MultipartFile monsterImg) {
+    public MonsterBaseDto uploadMonster(Long monsterClassId, @Valid UploadFilesWithDescription monsterInfo,
+                                        @NotNull MultipartFile monsterImg) {
+
         MonsterClass monsterClass = monsterClassService.getMonsterClassById(monsterClassId);
         String monsterImgPath = monsterImg.getOriginalFilename();
         Path saveDirectoryPath = imgPaths.getRootMonsterImgPath();
 
-        if (monsterRepository.existsByImgSource(monsterImgPath)) {
+        if (monsterRepository.existsByImgName(monsterImgPath)) {
             throw new FileAlreadyExistsException("img with path" + monsterImgPath + " not found");
         }
+        MonsterDescription monsterDescription = MonsterDescription.builder()
+                        .description(monsterInfo.getDescription())
+                        .quote(monsterInfo.getQuote())
+                        .quoteAuthor(monsterInfo.getQuoteAuthor())
+                        .build();
 
         Monster newMonster = Monster.builder()
                 .monsterClass(monsterClass)
-                .name(name)
-                .imgSource(monsterImgPath)
+                .name(monsterInfo.getName())
+                .imgName(monsterImgPath)
                 .source("monster/")
+                .monsterDescription(monsterDescription)
                 .build();
 
-        monsterRepository.save(newMonster);
-
         FileUtils.saveFile(monsterImg, saveDirectoryPath);
+
+        return monsterMapper.toDto(monsterRepository.save(newMonster));
     }
 
     @Override
@@ -66,7 +76,7 @@ public class MonsterServiceImpl implements MonsterService {
 
     @Override
     public MonsterBase findByPath(String path) {
-        return monsterRepository.findByImgSource(path)
+        return monsterRepository.findByImgName(path)
                 .orElseThrow(() -> new NotFoundException("img with path " + path + " not found in monster directory"));
     }
 }

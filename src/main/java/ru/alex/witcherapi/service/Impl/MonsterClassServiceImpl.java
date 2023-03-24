@@ -1,6 +1,7 @@
 package ru.alex.witcherapi.service.Impl;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,30 +43,29 @@ public class MonsterClassServiceImpl implements MonsterClassService {
 
     @Override
     @Transactional
-    public void uploadClass(@Valid UploadFilesBaseDto classInfo) {
+    public MonsterBaseDto uploadClass(@Valid UploadFilesBaseDto classInfo, @NotNull MultipartFile classImg) {
         String className = classInfo.getName();
-        MultipartFile classImg = classInfo.getClassImg();
 
         Path classImgPath = imgPaths.getRootClassImgPath();
         String savedImgSrc = classImg.getOriginalFilename();
 
-        if (monsterClassRepository.existsByNameAndImgSource(className,savedImgSrc)) {
+        if (monsterClassRepository.existsByNameAndImgName(className,savedImgSrc)) {
             throw new FileAlreadyExistsException("file with name" + classImg.getOriginalFilename() +
                     " already exist");
         }
         MonsterClass newMonsterClass = new MonsterClass();
         newMonsterClass.setName(className);
-        newMonsterClass.setImgSource(savedImgSrc);
+        newMonsterClass.setImgName(savedImgSrc);
         newMonsterClass.setSource("class/");
 
         saveFile(classImg, classImgPath);
 
-        monsterClassRepository.save(newMonsterClass);
+        return monsterMapper.toDto(monsterClassRepository.save(newMonsterClass));
     }
 
     @Override
     public MonsterBase findByPath(String path) {
-        return monsterClassRepository.findByImgSource(path)
+        return monsterClassRepository.findByImgName(path)
                 .orElseThrow(() -> new NotFoundException("img with path " + path + " not found in class directory"));
     }
 }

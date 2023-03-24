@@ -2,11 +2,10 @@ package ru.alex.witcherapi.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ru.alex.witcherapi.dto.MonsterBaseDto;
+import ru.alex.witcherapi.dto.UploadFilesWithDescription;
 import ru.alex.witcherapi.service.MonsterService;
 
 import java.util.List;
@@ -21,5 +20,13 @@ public class MonsterController {
     @GetMapping("/all/{classId}")
     public ResponseEntity<List<MonsterBaseDto>> getMonsterListByClassId(@PathVariable Long classId) {
         return ResponseEntity.ok(monsterService.getMonsterListByClassId(classId));
+    }
+
+    @PostMapping("/{classId}")
+    public ResponseEntity<MonsterBaseDto> uploadMonster(@PathVariable Long classId,
+                                                        @RequestParam("monsterImg") MultipartFile monsterImg,
+                                                        UploadFilesWithDescription monsterInfo) {
+
+        return ResponseEntity.ok(monsterService.uploadMonster(classId, monsterInfo, monsterImg));
     }
 }

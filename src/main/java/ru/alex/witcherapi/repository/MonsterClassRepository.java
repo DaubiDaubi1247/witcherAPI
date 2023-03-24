@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface MonsterClassRepository extends JpaRepository<MonsterClass, Long> {
-    boolean existsByNameAndImgSource(String name, String imgSource);
+    boolean existsByNameAndImgName(String name, String imgSource);
 
-    Optional<MonsterBase> findByImgSource(String imgSource);
+    Optional<MonsterBase> findByImgName(String imgSource);
 }

@@ -21,7 +21,7 @@ public class MonsterBase {
     private String name;
 
     @Column(name = "img_name")
-    private String imgSource;
+    private String imgName;
 
     @Column(name = "source")
     private String source;
