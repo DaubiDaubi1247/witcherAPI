@@ -6,11 +6,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.context.support.ServletContextResource;
+import ru.alex.witcherapi.entity.MonsterBase;
 import ru.alex.witcherapi.exception.NotFoundException;
 import ru.alex.witcherapi.service.ImgService;
 import ru.alex.witcherapi.service.MonsterClassService;
 import ru.alex.witcherapi.service.MonsterService;
-import ru.alex.witcherapi.utils.FileUtils;
 import ru.alex.witcherapi.utils.ImgSourceEnum;
 import ru.alex.witcherapi.utils.PathEnum;
 
@@ -27,12 +27,16 @@ public class ImgServiceImpl implements ImgService {
     @Override
     public ServletContextResource getImgByPath(@NotBlank String source, @NotBlank String path) {
 
+        MonsterBase monsterBase;
+
         switch (ImgSourceEnum.valueOf(source.toUpperCase())) {
-            case CLASS -> FileUtils.isFileExists(monsterClassService, path);
-            case MONSTER -> FileUtils.isFileExists(monsterService, path);
+            case CLASS -> monsterBase = monsterClassService.findByPath(path);
+            case MONSTER -> monsterBase = monsterService.findByPath(path);
+
             default -> throw new NotFoundException("source with name = " + source + " not found");
         }
 
-        return new ServletContextResource(servletContext, PathEnum.PATH_FOR_GET_IMG.getPath() + source + "/" + path);
+        return new ServletContextResource(servletContext,
+                PathEnum.PATH_FOR_GET_IMG.getPath() + monsterBase.getSource() + monsterBase.getImgSource());
     }
 }

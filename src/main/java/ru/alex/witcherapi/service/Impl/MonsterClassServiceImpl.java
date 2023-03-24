@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.multipart.MultipartFile;
 import ru.alex.witcherapi.dto.MonsterBaseDto;
+import ru.alex.witcherapi.entity.MonsterBase;
 import ru.alex.witcherapi.entity.MonsterClass;
 import ru.alex.witcherapi.exception.FileAlreadyExistsException;
 import ru.alex.witcherapi.exception.NotFoundException;
@@ -58,16 +59,17 @@ public class MonsterClassServiceImpl implements MonsterClassService {
         monsterClassRepository.save(newMonsterClass);
     }
 
-    @Override
-    public boolean existsByPath(@NotBlank String path) {
-        return monsterClassRepository.existsByImgSource(path);
-    }
-
     private static void saveFile(MultipartFile classImg, Path classImgPath) {
         try {
             Files.copy(classImg.getInputStream(), classImgPath.resolve(classImg.getOriginalFilename()));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public MonsterBase findByPath(String path) {
+        return monsterClassRepository.findByImgSource(path)
+                .orElseThrow(() -> new NotFoundException("img with path " + path + " not found in class directory"));
     }
 }

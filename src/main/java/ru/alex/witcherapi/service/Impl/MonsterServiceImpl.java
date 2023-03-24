@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import ru.alex.witcherapi.dto.MonsterBaseDto;
+import ru.alex.witcherapi.entity.MonsterBase;
 import ru.alex.witcherapi.entity.MonsterClass;
+import ru.alex.witcherapi.exception.NotFoundException;
 import ru.alex.witcherapi.mapper.MonsterMapper;
 import ru.alex.witcherapi.repository.MonsterRepository;
 import ru.alex.witcherapi.service.MonsterClassService;
@@ -31,7 +33,8 @@ public class MonsterServiceImpl implements MonsterService {
     }
 
     @Override
-    public boolean existsByPath(String path) {
-        return monsterRepository.existsByImgSource(path);
+    public MonsterBase findByPath(String path) {
+        return monsterRepository.findByImgSource(path)
+                .orElseThrow(() -> new NotFoundException("img with path " + path + " not found in monster directory"));
     }
 }

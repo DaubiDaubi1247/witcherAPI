@@ -1,7 +1,8 @@
 package ru.alex.witcherapi.utils;
 
 import jakarta.validation.constraints.NotBlank;
+import ru.alex.witcherapi.entity.MonsterBase;
 
 public interface PathChecker {
-    boolean existsByPath(@NotBlank String path);
+    MonsterBase findByPath(@NotBlank String path);
 }
