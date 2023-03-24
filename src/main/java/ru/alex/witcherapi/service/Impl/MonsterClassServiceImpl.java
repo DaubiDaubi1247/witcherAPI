@@ -17,9 +17,10 @@ import ru.alex.witcherapi.repository.MonsterClassRepository;
 import ru.alex.witcherapi.service.MonsterClassService;
 import ru.alex.witcherapi.utils.ImgPaths;
 
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+
+import static ru.alex.witcherapi.utils.FileUtils.saveFile;
 
 @Service
 @RequiredArgsConstructor
@@ -57,14 +58,6 @@ public class MonsterClassServiceImpl implements MonsterClassService {
         saveFile(classImg, classImgPath);
 
         monsterClassRepository.save(newMonsterClass);
-    }
-
-    private static void saveFile(MultipartFile classImg, Path classImgPath) {
-        try {
-            Files.copy(classImg.getInputStream(), classImgPath.resolve(classImg.getOriginalFilename()));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
     @Override

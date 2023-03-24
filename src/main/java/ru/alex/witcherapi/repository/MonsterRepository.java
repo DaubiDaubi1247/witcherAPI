@@ -14,5 +14,7 @@ public interface MonsterRepository extends JpaRepository<Monster, Long> {
 
     List<Monster> findAllByMonsterClass(MonsterClass monsterClass);
 
+    boolean existsByImgSource(String imgSource);
+
     Optional<MonsterBase> findByImgSource(String imgSource);
 }

@@ -14,4 +14,8 @@ public class ImgPaths {
     public Path getRootClassImgPath() {
         return Paths.get(PathEnum.ROOT_CLASS_PATH.getPath());
     }
+
+    public Path getRootMonsterImgPath() {
+        return Paths.get(PathEnum.ROOT_MONSTER_PATH.getPath());
+    }
 }
