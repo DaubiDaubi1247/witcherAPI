@@ -1,13 +1,13 @@
 package ru.alex.witcherapi.service.Impl;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.multipart.MultipartFile;
 import ru.alex.witcherapi.dto.MonsterBaseDto;
+import ru.alex.witcherapi.dto.UploadFilesBaseDto;
 import ru.alex.witcherapi.entity.MonsterBase;
 import ru.alex.witcherapi.entity.MonsterClass;
 import ru.alex.witcherapi.exception.FileAlreadyExistsException;
@@ -42,7 +42,10 @@ public class MonsterClassServiceImpl implements MonsterClassService {
 
     @Override
     @Transactional
-    public void uploadClass(@NotBlank String className, @NotNull MultipartFile classImg) {
+    public void uploadClass(@Valid UploadFilesBaseDto classInfo) {
+        String className = classInfo.getName();
+        MultipartFile classImg = classInfo.getClassImg();
+
         Path classImgPath = imgPaths.getRootClassImgPath();
         String savedImgSrc = classImg.getOriginalFilename();
 
