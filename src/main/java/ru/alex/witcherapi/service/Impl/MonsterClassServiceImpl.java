@@ -1,6 +1,7 @@
 package ru.alex.witcherapi.service.Impl;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +16,6 @@ import ru.alex.witcherapi.repository.MonsterClassRepository;
 import ru.alex.witcherapi.service.MonsterClassService;
 import ru.alex.witcherapi.utils.ImgPaths;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -40,10 +40,9 @@ public class MonsterClassServiceImpl implements MonsterClassService {
 
     @Override
     @Transactional
-    public void uploadClass(@NotBlank String className, MultipartFile classImg) {
+    public void uploadClass(@NotBlank String className, @NotNull MultipartFile classImg) {
         Path classImgPath = imgPaths.getRootClassImgPath();
-        String imgPath = classImg.getOriginalFilename();
-        String savedImgSrc = classImgPath.toString() + imgPath;
+        String savedImgSrc = "class/" + classImg.getOriginalFilename();
 
         if (monsterClassRepository.existsByNameAndImgSource(className,savedImgSrc)) {
             throw new FileAlreadyExistsException("file with name" + classImg.getOriginalFilename() +
@@ -51,14 +50,18 @@ public class MonsterClassServiceImpl implements MonsterClassService {
         }
         MonsterClass newMonsterClass = new MonsterClass();
         newMonsterClass.setName(className);
-        newMonsterClass.setImgSource(imgPath);
+        newMonsterClass.setImgSource(savedImgSrc);
 
-        try {
-            Files.copy(classImg.getInputStream(), classImgPath.resolve(imgPath));
-        } catch (IOException e) {
-            throw new RuntimeException("save file error");
-        }
+        saveFile(classImg, classImgPath);
 
         monsterClassRepository.save(newMonsterClass);
+    }
+
+    private static void saveFile(MultipartFile classImg, Path classImgPath) {
+        try {
+            Files.copy(classImg.getInputStream(), classImgPath.resolve(classImg.getOriginalFilename()));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
