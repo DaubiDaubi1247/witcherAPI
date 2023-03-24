@@ -19,5 +19,5 @@ public interface MonsterRepository extends JpaRepository<Monster, Long> {
 
     Optional<MonsterBase> findByImgName(String imgSource);
 
-    MonsterWithDescription getMonsterById(Long id);
+    Optional<MonsterWithDescription> getMonsterWithDescriptionById(Long id);
 }

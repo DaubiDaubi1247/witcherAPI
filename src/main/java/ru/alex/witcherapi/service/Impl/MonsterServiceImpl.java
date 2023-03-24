@@ -76,8 +76,10 @@ public class MonsterServiceImpl implements MonsterService {
     }
 
     @Override
-    public MonsterWithDescription getMonsterById(Long id) {
-        return monsterRepository.getMonsterById(id);
+    @Transactional
+    public MonsterWithDescription getMonsterWithDescriptionById(Long id) {
+        return monsterRepository.getMonsterWithDescriptionById(id)
+                .orElseThrow(() -> new NotFoundException("monster with id = " + id + " not found"));
     }
 
     @Override

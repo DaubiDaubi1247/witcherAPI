@@ -17,5 +17,5 @@ public interface MonsterService extends PathChecker {
 
     List<MonsterBaseDto> getMonsterListByClassId(Long id);
 
-    MonsterWithDescription getMonsterById(Long id);
+    MonsterWithDescription getMonsterWithDescriptionById(Long id);
 }
