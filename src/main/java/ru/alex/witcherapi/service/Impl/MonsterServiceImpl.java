@@ -9,6 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.multipart.MultipartFile;
 import ru.alex.witcherapi.dto.MonsterBaseDto;
 import ru.alex.witcherapi.dto.UploadFilesWithDescription;
+import ru.alex.witcherapi.dto.projection.MonsterWithDescription;
 import ru.alex.witcherapi.entity.Monster;
 import ru.alex.witcherapi.entity.MonsterBase;
 import ru.alex.witcherapi.entity.MonsterClass;
@@ -68,10 +69,10 @@ public class MonsterServiceImpl implements MonsterService {
 
     @Override
     @Transactional
-    public List<MonsterBaseDto> getMonsterListByClassId(Long id) {
+    public List<MonsterWithDescription> getMonsterListByClassId(Long id) {
         MonsterClass monsterClass = monsterClassService.getMonsterClassById(id);
 
-        return monsterMapper.toDtoList(monsterRepository.findAllByMonsterClass(monsterClass));
+        return monsterRepository.findAllByMonsterClass(monsterClass);
     }
 
     @Override

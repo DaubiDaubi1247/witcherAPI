@@ -12,4 +12,5 @@ public interface MonsterMapper {
     MonsterBaseDto toDto(MonsterBase monsterBase);
 
     List<MonsterBaseDto> toDtoList(List<? extends MonsterBase> monsterClassList);
+
 }

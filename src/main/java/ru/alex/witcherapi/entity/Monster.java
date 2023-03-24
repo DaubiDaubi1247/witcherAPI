@@ -15,7 +15,7 @@ public class Monster extends MonsterBase {
     @ManyToOne
     private MonsterClass monsterClass;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "monster_desc_id")
     private MonsterDescription monsterDescription;
 }

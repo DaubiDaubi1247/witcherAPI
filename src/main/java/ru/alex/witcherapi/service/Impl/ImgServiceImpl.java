@@ -4,6 +4,7 @@ import jakarta.servlet.ServletContext;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.context.support.ServletContextResource;
 import ru.alex.witcherapi.entity.MonsterBase;
@@ -25,6 +26,7 @@ public class ImgServiceImpl implements ImgService {
     private final ServletContext servletContext;
 
     @Override
+    @Transactional
     public ServletContextResource getImgByPath(@NotBlank String source, @NotBlank String path) {
 
         MonsterBase monsterBase;
