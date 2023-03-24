@@ -20,7 +20,10 @@ public class MonsterBase {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "img_source")
+    @Column(name = "img_name")
     private String imgSource;
+
+    @Column(name = "source")
+    private String source;
 
 }

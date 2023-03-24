@@ -42,7 +42,7 @@ public class MonsterClassServiceImpl implements MonsterClassService {
     @Transactional
     public void uploadClass(@NotBlank String className, @NotNull MultipartFile classImg) {
         Path classImgPath = imgPaths.getRootClassImgPath();
-        String savedImgSrc = "class/" + classImg.getOriginalFilename();
+        String savedImgSrc = classImg.getOriginalFilename();
 
         if (monsterClassRepository.existsByNameAndImgSource(className,savedImgSrc)) {
             throw new FileAlreadyExistsException("file with name" + classImg.getOriginalFilename() +
@@ -51,6 +51,7 @@ public class MonsterClassServiceImpl implements MonsterClassService {
         MonsterClass newMonsterClass = new MonsterClass();
         newMonsterClass.setName(className);
         newMonsterClass.setImgSource(savedImgSrc);
+        newMonsterClass.setSource("class/");
 
         saveFile(classImg, classImgPath);
 
