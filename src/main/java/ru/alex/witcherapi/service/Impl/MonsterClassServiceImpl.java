@@ -9,12 +9,14 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.multipart.MultipartFile;
 import ru.alex.witcherapi.dto.MonsterBaseDto;
 import ru.alex.witcherapi.dto.UploadFilesBaseDto;
+import ru.alex.witcherapi.entity.ImgDirection;
 import ru.alex.witcherapi.entity.MonsterBase;
 import ru.alex.witcherapi.entity.MonsterClass;
 import ru.alex.witcherapi.exception.FileAlreadyExistsException;
 import ru.alex.witcherapi.exception.NotFoundException;
 import ru.alex.witcherapi.mapper.MonsterMapper;
 import ru.alex.witcherapi.repository.MonsterClassRepository;
+import ru.alex.witcherapi.service.ImgDirectionService;
 import ru.alex.witcherapi.service.MonsterClassService;
 import ru.alex.witcherapi.utils.ImgPaths;
 
@@ -28,6 +30,9 @@ import static ru.alex.witcherapi.utils.FileUtils.saveFile;
 @Validated
 public class MonsterClassServiceImpl implements MonsterClassService {
     private final MonsterClassRepository monsterClassRepository;
+
+    private final ImgDirectionService imgService;
+
     private final MonsterMapper monsterMapper;
     private final ImgPaths imgPaths;
 
@@ -44,6 +49,9 @@ public class MonsterClassServiceImpl implements MonsterClassService {
     @Override
     @Transactional
     public MonsterBaseDto uploadClass(@Valid UploadFilesBaseDto classInfo, @NotNull MultipartFile classImg) {
+
+        ImgDirection imgDirection = imgService.getImgDirectionByName("class/");
+
         String className = classInfo.getName();
 
         Path classImgPath = imgPaths.getRootClassImgPath();
@@ -53,10 +61,12 @@ public class MonsterClassServiceImpl implements MonsterClassService {
             throw new FileAlreadyExistsException("file with name" + classImg.getOriginalFilename() +
                     " already exist");
         }
-        MonsterClass newMonsterClass = new MonsterClass();
-        newMonsterClass.setName(className);
-        newMonsterClass.setImgName(savedImgSrc);
-//        newMonsterClass.setSource("class/");
+
+        MonsterClass newMonsterClass = MonsterClass.builder()
+                        .name(className)
+                        .imgName(savedImgSrc)
+                        .imgDirection(imgDirection)
+                        .build();
 
         saveFile(classImg, classImgPath);
 
