@@ -58,7 +58,6 @@ public class MonsterServiceImpl implements MonsterService {
                 .monsterClass(monsterClass)
                 .name(monsterInfo.getName())
                 .imgName(monsterImgPath)
-                .source("monster/")
                 .monsterDescription(monsterDescription)
                 .build();
 

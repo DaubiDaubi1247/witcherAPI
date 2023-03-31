@@ -1,6 +1,6 @@
 package ru.alex.witcherapi.dto.projection;
 
-import jakarta.persistence.Lob;
+
 import org.springframework.beans.factory.annotation.Value;
 
 public interface MonsterWithDescription {

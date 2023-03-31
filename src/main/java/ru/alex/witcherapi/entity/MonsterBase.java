@@ -13,7 +13,6 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class MonsterBase {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,7 +22,8 @@ public class MonsterBase {
     @Column(name = "img_name")
     private String imgName;
 
-    @Column(name = "source")
-    private String source;
+    @ManyToOne
+    @JoinColumn(name = "direction_id")
+    private ImgDirection imgDirection;
 
 }

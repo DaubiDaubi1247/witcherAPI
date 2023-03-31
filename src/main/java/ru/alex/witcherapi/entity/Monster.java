@@ -13,6 +13,7 @@ import lombok.experimental.SuperBuilder;
 public class Monster extends MonsterBase {
 
     @ManyToOne
+    @JoinColumn(name = "monster_class_id")
     private MonsterClass monsterClass;
 
     @OneToOne(cascade = CascadeType.PERSIST)

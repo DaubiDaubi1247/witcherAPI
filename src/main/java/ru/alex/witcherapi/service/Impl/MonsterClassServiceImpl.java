@@ -56,7 +56,7 @@ public class MonsterClassServiceImpl implements MonsterClassService {
         MonsterClass newMonsterClass = new MonsterClass();
         newMonsterClass.setName(className);
         newMonsterClass.setImgName(savedImgSrc);
-        newMonsterClass.setSource("class/");
+//        newMonsterClass.setSource("class/");
 
         saveFile(classImg, classImgPath);
 
