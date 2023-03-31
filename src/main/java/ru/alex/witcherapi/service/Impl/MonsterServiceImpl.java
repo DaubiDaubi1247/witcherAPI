@@ -10,14 +10,12 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.alex.witcherapi.dto.MonsterBaseDto;
 import ru.alex.witcherapi.dto.UploadFilesWithDescription;
 import ru.alex.witcherapi.dto.projection.MonsterWithDescription;
-import ru.alex.witcherapi.entity.Monster;
-import ru.alex.witcherapi.entity.MonsterBase;
-import ru.alex.witcherapi.entity.MonsterClass;
-import ru.alex.witcherapi.entity.MonsterDescription;
+import ru.alex.witcherapi.entity.*;
 import ru.alex.witcherapi.exception.FileAlreadyExistsException;
 import ru.alex.witcherapi.exception.NotFoundException;
 import ru.alex.witcherapi.mapper.MonsterMapper;
 import ru.alex.witcherapi.repository.MonsterRepository;
+import ru.alex.witcherapi.service.ImgDirectionService;
 import ru.alex.witcherapi.service.MonsterClassService;
 import ru.alex.witcherapi.service.MonsterService;
 import ru.alex.witcherapi.utils.FileUtils;
@@ -33,7 +31,9 @@ public class MonsterServiceImpl implements MonsterService {
     private final MonsterRepository monsterRepository;
     private final MonsterMapper monsterMapper;
     private final ImgPaths imgPaths;
+
     private final MonsterClassService monsterClassService;
+    private final ImgDirectionService imgDirectionService;
 
 
     @Override
@@ -42,23 +42,22 @@ public class MonsterServiceImpl implements MonsterService {
                                         @NotNull MultipartFile monsterImg) {
 
         MonsterClass monsterClass = monsterClassService.getMonsterClassById(monsterClassId);
+        ImgDirection imgDirection = imgDirectionService.getImgDirectionByName("monster/");
+
         String monsterImgPath = monsterImg.getOriginalFilename();
         Path saveDirectoryPath = imgPaths.getRootMonsterImgPath();
 
         if (monsterRepository.existsByImgName(monsterImgPath)) {
             throw new FileAlreadyExistsException("img with path" + monsterImgPath + " not found");
         }
-        MonsterDescription monsterDescription = MonsterDescription.builder()
-                        .description(monsterInfo.getDescription())
-                        .quote(monsterInfo.getQuote())
-                        .quoteAuthor(monsterInfo.getQuoteAuthor())
-                        .build();
+        MonsterDescription monsterDescription = monsterMapper.toMonsterDescription(monsterInfo);
 
         Monster newMonster = Monster.builder()
                 .monsterClass(monsterClass)
                 .name(monsterInfo.getName())
                 .imgName(monsterImgPath)
                 .monsterDescription(monsterDescription)
+                .imgDirection(imgDirection)
                 .build();
 
         FileUtils.saveFile(monsterImg, saveDirectoryPath);
