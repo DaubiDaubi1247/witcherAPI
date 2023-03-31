@@ -7,6 +7,8 @@ public interface MonsterWithDescription {
     Long getId();
     String getName();
     String getImgName();
+
+    @Value("#{target.imgDirection.name}")
     String getSource();
 
     @Value("#{target.monsterDescription.quote}")
