@@ -12,4 +12,4 @@
 
 ## Использованные технологии
 - Spring boot
-- PostgreSql
+- PostgresSql
