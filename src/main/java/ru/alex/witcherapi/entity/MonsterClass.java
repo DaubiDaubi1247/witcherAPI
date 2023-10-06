@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "monster_class")
 @NoArgsConstructor
@@ -11,5 +14,8 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @SuperBuilder
 public class MonsterClass extends MonsterBase {
+
+    @OneToMany(mappedBy = "monsterClass", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Monster> monsterList = new ArrayList<>();
 
 }

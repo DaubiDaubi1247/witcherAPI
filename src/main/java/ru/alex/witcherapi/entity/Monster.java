@@ -1,7 +1,9 @@
 package ru.alex.witcherapi.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Entity
@@ -12,11 +14,11 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class Monster extends MonsterBase {
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "monster_class_id")
     private MonsterClass monsterClass;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "monster_desc_id")
     private MonsterDescription monsterDescription;
 }

@@ -23,7 +23,9 @@ import ru.alex.witcherapi.utils.ImgPaths;
 import java.nio.file.Path;
 import java.util.List;
 
+import static ru.alex.witcherapi.utils.FileUtils.deleteFile;
 import static ru.alex.witcherapi.utils.FileUtils.saveFile;
+import static ru.alex.witcherapi.utils.PathEnum.ROOT_CLASS_PATH;
 
 @Service
 @RequiredArgsConstructor
@@ -71,6 +73,34 @@ public class MonsterClassServiceImpl implements MonsterClassService {
         saveFile(classImg, classImgPath);
 
         return monsterMapper.toDto(monsterClassRepository.save(newMonsterClass));
+    }
+
+    @Override
+    @Transactional
+    public boolean deleteMonsterClass(Long id) {
+
+        var monsterClass = getMonsterClassById(id);
+
+        try {
+            deleteFile(ROOT_CLASS_PATH.getPath() + monsterClass.getImgName());
+            monsterClassRepository.deleteById(id);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
+    @Transactional
+    public boolean updateMonsterClass(Long id, UploadFilesBaseDto updateInfo) {
+        var monsterClass = getMonsterClassById(id);
+        
+        try {
+            monsterClass.setName(updateInfo.getName());
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override

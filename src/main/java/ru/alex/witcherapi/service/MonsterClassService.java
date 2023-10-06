@@ -17,4 +17,7 @@ public interface MonsterClassService extends PathChecker {
 
     MonsterBaseDto uploadClass(@Valid UploadFilesBaseDto classInfo, @NotNull MultipartFile classImg);
 
+    boolean deleteMonsterClass(Long id);
+
+    boolean updateMonsterClass(Long id, UploadFilesBaseDto updateInfo);
 }
