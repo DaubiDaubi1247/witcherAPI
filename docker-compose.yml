@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+  # Сервис для разворачивания контейнера с базой данных
+  database:
+    image: postgres:latest
+
+    volumes:
+      - /var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=witcher
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1234
+
+  # Сервис для разворачивания контейнера с приложением
+  witcher_api:
+    image : witcherapi
+    build: ./
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/witcher
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1234
